@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { X, Database, CheckCircle2, AlertCircle, HelpCircle, ExternalLink, RefreshCw, Sparkles } from 'lucide-react';
+import { X, Database, CheckCircle2, AlertCircle, HelpCircle, RefreshCw, Sparkles } from 'lucide-react';
 import { getSheetConfig, saveSheetConfig, resetSheetConfig, fetchFromGoogleSheet, extractSheetId } from '../services/sheetService';
 
 export default function ConfigModal({ isOpen, onClose, onConfigSaved }) {
   const [sheetInput, setSheetInput] = useState('');
   const [sheetName, setSheetName] = useState('');
   const [testing, setTesting] = useState(false);
-  const [testResult, setTestResult] = useState(null); // { success: boolean, count?: number, message: string }
+  const [testResult, setTestResult] = useState(null);
   const [showGuide, setShowGuide] = useState(false);
 
   useEffect(() => {
@@ -83,15 +83,15 @@ export default function ConfigModal({ isOpen, onClose, onConfigSaved }) {
         <div className="modal-header">
           <div className="modal-title-box">
             <div className="modal-icon-badge">
-              <Database size={20} />
+              <Database size={18} />
             </div>
             <div>
-              <h2 className="modal-title">Sumber Data Google Spreadsheet</h2>
-              <p className="modal-subtitle">Hubungkan spreadsheet Anda secara langsung</p>
+              <h2 className="modal-title">Sumber Data Spreadsheet</h2>
+              <p className="modal-subtitle">Hubungkan Google Spreadsheet Anda</p>
             </div>
           </div>
           <button onClick={onClose} className="modal-close-btn" aria-label="Close modal">
-            <X size={18} />
+            <X size={16} />
           </button>
         </div>
 
@@ -105,12 +105,12 @@ export default function ConfigModal({ isOpen, onClose, onConfigSaved }) {
             <input
               type="text"
               className="form-input"
-              placeholder="https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/..."
+              placeholder="https://docs.google.com/spreadsheets/d/..."
               value={sheetInput}
               onChange={(e) => setSheetInput(e.target.value)}
             />
             <span className="form-hint">
-              Contoh: Tempel link URL lengkap dari Google Sheet atau ID Sheet saja.
+              Tempel link URL lengkap dari Google Sheet atau ID Sheet saja.
             </span>
           </div>
 
@@ -134,13 +134,13 @@ export default function ConfigModal({ isOpen, onClose, onConfigSaved }) {
               disabled={testing || !sheetInput.trim()}
               className="btn btn-secondary test-btn"
             >
-              {testing ? <RefreshCw size={16} className="animate-spin" /> : <Sparkles size={16} />}
+              {testing ? <RefreshCw size={15} className="animate-spin" /> : <Sparkles size={15} />}
               <span>{testing ? 'Menguji Koneksi...' : 'Uji Koneksi Sheet'}</span>
             </button>
 
             {testResult && (
               <div className={`test-alert ${testResult.success ? 'alert-success' : 'alert-danger'}`}>
-                {testResult.success ? <CheckCircle2 size={18} /> : <AlertCircle size={18} />}
+                {testResult.success ? <CheckCircle2 size={16} /> : <AlertCircle size={16} />}
                 <span>{testResult.message}</span>
               </div>
             )}
@@ -153,8 +153,8 @@ export default function ConfigModal({ isOpen, onClose, onConfigSaved }) {
               className="guide-toggle-btn"
               onClick={() => setShowGuide(!showGuide)}
             >
-              <HelpCircle size={16} />
-              <span>Panduan Format Spreadsheet & Cara Berbagi</span>
+              <HelpCircle size={15} />
+              <span>Panduan Format Kolom & Cara Berbagi</span>
             </button>
 
             {showGuide && (
@@ -195,14 +195,14 @@ export default function ConfigModal({ isOpen, onClose, onConfigSaved }) {
 
         {/* Modal Footer */}
         <div className="modal-footer">
-          <button type="button" onClick={handleResetToSample} className="btn btn-outline">
+          <button type="button" onClick={handleResetToSample} className="btn btn-outline btn-reset-demo">
             Gunakan Data Demo
           </button>
           <div className="footer-right-actions">
-            <button type="button" onClick={onClose} className="btn btn-secondary">
+            <button type="button" onClick={onClose} className="btn btn-secondary btn-cancel">
               Batal
             </button>
-            <button type="button" onClick={handleSave} className="btn btn-primary">
+            <button type="button" onClick={handleSave} className="btn btn-primary btn-save">
               Simpan & Sinkron
             </button>
           </div>
@@ -222,14 +222,14 @@ export default function ConfigModal({ isOpen, onClose, onConfigSaved }) {
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 1rem;
+          padding: 0.75rem;
           z-index: 99;
           animation: fadeIn 0.2s ease-out;
         }
 
         .modal-content {
           width: 100%;
-          max-width: 580px;
+          max-width: 540px;
           max-height: 90vh;
           overflow-y: auto;
           background: var(--bg-surface);
@@ -241,38 +241,58 @@ export default function ConfigModal({ isOpen, onClose, onConfigSaved }) {
         }
 
         .modal-header {
-          padding: 1.25rem 1.5rem;
+          padding: 1rem 1.25rem;
           display: flex;
           align-items: center;
           justify-content: space-between;
           border-bottom: 1px solid var(--border-color);
         }
 
+        @media (min-width: 640px) {
+          .modal-header {
+            padding: 1.25rem 1.5rem;
+          }
+        }
+
         .modal-title-box {
           display: flex;
           align-items: center;
-          gap: 0.85rem;
+          gap: 0.65rem;
         }
 
         .modal-icon-badge {
-          width: 38px;
-          height: 38px;
+          width: 34px;
+          height: 34px;
           border-radius: var(--radius-md);
           background: var(--primary-gradient);
           color: #FFFFFF;
           display: flex;
           align-items: center;
           justify-content: center;
+          flex-shrink: 0;
+        }
+
+        @media (min-width: 640px) {
+          .modal-icon-badge {
+            width: 38px;
+            height: 38px;
+          }
         }
 
         .modal-title {
-          font-size: 1.15rem;
+          font-size: 1.05rem;
           font-weight: 700;
-          margin-bottom: 0.15rem;
+          margin-bottom: 0.1rem;
+        }
+
+        @media (min-width: 640px) {
+          .modal-title {
+            font-size: 1.15rem;
+          }
         }
 
         .modal-subtitle {
-          font-size: 0.8rem;
+          font-size: 0.75rem;
           color: var(--text-muted);
         }
 
@@ -281,7 +301,7 @@ export default function ConfigModal({ isOpen, onClose, onConfigSaved }) {
           border: 1px solid var(--border-color);
           color: var(--text-muted);
           border-radius: var(--radius-sm);
-          padding: 0.4rem;
+          padding: 0.35rem;
           cursor: pointer;
           transition: all var(--transition-fast);
           display: flex;
@@ -293,20 +313,27 @@ export default function ConfigModal({ isOpen, onClose, onConfigSaved }) {
         }
 
         .modal-body {
-          padding: 1.5rem;
+          padding: 1.15rem;
           display: flex;
           flex-direction: column;
-          gap: 1.25rem;
+          gap: 1rem;
+        }
+
+        @media (min-width: 640px) {
+          .modal-body {
+            padding: 1.5rem;
+            gap: 1.25rem;
+          }
         }
 
         .form-group {
           display: flex;
           flex-direction: column;
-          gap: 0.4rem;
+          gap: 0.35rem;
         }
 
         .form-label {
-          font-size: 0.85rem;
+          font-size: 0.82rem;
           font-weight: 600;
           color: var(--text-main);
         }
@@ -319,12 +346,20 @@ export default function ConfigModal({ isOpen, onClose, onConfigSaved }) {
           background: var(--bg-surface-elevated);
           border: 1px solid var(--border-color);
           border-radius: var(--radius-md);
-          padding: 0.75rem 1rem;
+          padding: 0.65rem 0.85rem;
           font-family: var(--font-main);
-          font-size: 0.9rem;
+          font-size: 14px;
           color: var(--text-main);
           outline: none;
           transition: all var(--transition-fast);
+          min-height: 40px;
+        }
+
+        @media (min-width: 640px) {
+          .form-input {
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+          }
         }
 
         .form-input:focus {
@@ -333,29 +368,29 @@ export default function ConfigModal({ isOpen, onClose, onConfigSaved }) {
         }
 
         .form-hint {
-          font-size: 0.75rem;
+          font-size: 0.72rem;
           color: var(--text-muted);
         }
 
         .test-connection-section {
           display: flex;
           flex-direction: column;
-          gap: 0.75rem;
+          gap: 0.65rem;
         }
 
         .test-btn {
           align-self: flex-start;
-          font-size: 0.85rem;
-          padding: 0.55rem 1rem;
+          font-size: 0.82rem;
+          padding: 0.5rem 0.85rem;
         }
 
         .test-alert {
           display: flex;
           align-items: center;
-          gap: 0.6rem;
-          padding: 0.75rem 1rem;
+          gap: 0.55rem;
+          padding: 0.65rem 0.85rem;
           border-radius: var(--radius-md);
-          font-size: 0.85rem;
+          font-size: 0.82rem;
           font-weight: 500;
         }
 
@@ -375,7 +410,7 @@ export default function ConfigModal({ isOpen, onClose, onConfigSaved }) {
           background: var(--bg-surface-subtle);
           border: 1px solid var(--border-color);
           border-radius: var(--radius-lg);
-          padding: 0.85rem 1rem;
+          padding: 0.75rem 0.85rem;
         }
 
         .guide-toggle-btn {
@@ -384,9 +419,9 @@ export default function ConfigModal({ isOpen, onClose, onConfigSaved }) {
           border: none;
           display: flex;
           align-items: center;
-          gap: 0.5rem;
+          gap: 0.45rem;
           font-family: var(--font-main);
-          font-size: 0.85rem;
+          font-size: 0.82rem;
           font-weight: 600;
           color: var(--primary-600);
           cursor: pointer;
@@ -398,28 +433,28 @@ export default function ConfigModal({ isOpen, onClose, onConfigSaved }) {
         }
 
         .guide-content {
-          margin-top: 0.85rem;
-          padding-top: 0.85rem;
+          margin-top: 0.75rem;
+          padding-top: 0.75rem;
           border-top: 1px dashed var(--border-color);
-          font-size: 0.82rem;
+          font-size: 0.78rem;
           color: var(--text-muted);
           line-height: 1.5;
         }
 
         .table-mini-wrapper {
           overflow-x: auto;
-          margin: 0.5rem 0;
+          margin: 0.4rem 0;
         }
 
         .mini-table {
           width: 100%;
           border-collapse: collapse;
-          font-size: 0.76rem;
+          font-size: 0.74rem;
         }
 
         .mini-table th, .mini-table td {
           border: 1px solid var(--border-color);
-          padding: 0.35rem 0.5rem;
+          padding: 0.3rem 0.45rem;
           text-align: left;
         }
 
@@ -429,23 +464,61 @@ export default function ConfigModal({ isOpen, onClose, onConfigSaved }) {
         }
 
         .hint-photo {
-          font-size: 0.75rem;
-          margin-top: 0.4rem;
+          font-size: 0.72rem;
+          margin-top: 0.35rem;
         }
 
         .modal-footer {
-          padding: 1.25rem 1.5rem;
+          padding: 1rem 1.15rem;
           border-top: 1px solid var(--border-color);
           display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 0.75rem;
+          flex-direction: column-reverse;
+          gap: 0.65rem;
+        }
+
+        @media (min-width: 540px) {
+          .modal-footer {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem 1.5rem;
+          }
+        }
+
+        .btn-reset-demo {
+          width: 100%;
+          font-size: 0.82rem;
+        }
+
+        @media (min-width: 540px) {
+          .btn-reset-demo {
+            width: auto;
+          }
         }
 
         .footer-right-actions {
           display: flex;
           align-items: center;
-          gap: 0.75rem;
+          gap: 0.5rem;
+          width: 100%;
+        }
+
+        @media (min-width: 540px) {
+          .footer-right-actions {
+            width: auto;
+            gap: 0.75rem;
+          }
+        }
+
+        .btn-cancel, .btn-save {
+          flex: 1;
+          font-size: 0.85rem;
+        }
+
+        @media (min-width: 540px) {
+          .btn-cancel, .btn-save {
+            flex: initial;
+          }
         }
       `}</style>
     </div>

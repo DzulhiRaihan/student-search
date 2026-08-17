@@ -12,28 +12,24 @@ export default function StatsOverview({ students }) {
       label: 'Total Mahasiswa',
       value: total,
       icon: Users,
-      color: 'indigo',
       gradient: 'linear-gradient(135deg, #4F46E5, #6366F1)'
     },
     {
       label: 'Status Aktif',
       value: aktif,
       icon: UserCheck,
-      color: 'emerald',
       gradient: 'linear-gradient(135deg, #059669, #10B981)'
     },
     {
       label: 'Alumni / Lulus',
       value: lulus,
       icon: GraduationCap,
-      color: 'sky',
       gradient: 'linear-gradient(135deg, #0284C7, #38BDF8)'
     },
     {
       label: 'Perguruan Tinggi',
       value: uniqueInstitutions,
       icon: Building2,
-      color: 'violet',
       gradient: 'linear-gradient(135deg, #7C3AED, #A855F7)'
     }
   ];
@@ -45,7 +41,7 @@ export default function StatsOverview({ students }) {
         return (
           <div key={idx} className="stat-card">
             <div className="stat-icon-wrapper" style={{ background: stat.gradient }}>
-              <IconComponent size={22} color="#FFFFFF" />
+              <IconComponent size={20} color="#FFFFFF" />
             </div>
             <div className="stat-info">
               <span className="stat-label">{stat.label}</span>
@@ -59,14 +55,22 @@ export default function StatsOverview({ students }) {
         .stats-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 0.85rem;
-          margin-bottom: 1.75rem;
+          gap: 0.65rem;
+          margin-bottom: 1.25rem;
+        }
+
+        @media (min-width: 640px) {
+          .stats-grid {
+            gap: 0.85rem;
+            margin-bottom: 1.5rem;
+          }
         }
 
         @media (min-width: 900px) {
           .stats-grid {
             grid-template-columns: repeat(4, 1fr);
             gap: 1.25rem;
+            margin-bottom: 1.75rem;
           }
         }
 
@@ -74,12 +78,20 @@ export default function StatsOverview({ students }) {
           background: var(--bg-surface);
           border: 1px solid var(--border-color);
           border-radius: var(--radius-lg);
-          padding: 1rem 1.15rem;
+          padding: 0.75rem 0.85rem;
           display: flex;
           align-items: center;
-          gap: 1rem;
+          gap: 0.65rem;
           box-shadow: var(--shadow-sm);
           transition: all var(--transition-fast);
+          min-width: 0;
+        }
+
+        @media (min-width: 640px) {
+          .stat-card {
+            padding: 1rem 1.15rem;
+            gap: 1rem;
+          }
         }
 
         .stat-card:hover {
@@ -89,8 +101,8 @@ export default function StatsOverview({ students }) {
         }
 
         .stat-icon-wrapper {
-          width: 44px;
-          height: 44px;
+          width: 36px;
+          height: 36px;
           border-radius: var(--radius-md);
           display: flex;
           align-items: center;
@@ -99,30 +111,51 @@ export default function StatsOverview({ students }) {
           box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
         }
 
+        @media (min-width: 640px) {
+          .stat-icon-wrapper {
+            width: 44px;
+            height: 44px;
+          }
+        }
+
         .stat-info {
           display: flex;
           flex-direction: column;
           min-width: 0;
+          flex: 1;
         }
 
         .stat-label {
-          font-size: 0.76rem;
+          font-size: 0.68rem;
           font-weight: 600;
           color: var(--text-muted);
           text-transform: uppercase;
-          letter-spacing: 0.03em;
+          letter-spacing: 0.02em;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
         }
 
+        @media (min-width: 640px) {
+          .stat-label {
+            font-size: 0.76rem;
+            letter-spacing: 0.03em;
+          }
+        }
+
         .stat-value {
           font-family: var(--font-heading);
-          font-size: 1.4rem;
+          font-size: 1.15rem;
           font-weight: 800;
           color: var(--text-main);
           line-height: 1.2;
           margin-top: 0.1rem;
+        }
+
+        @media (min-width: 640px) {
+          .stat-value {
+            font-size: 1.4rem;
+          }
         }
       `}</style>
     </div>

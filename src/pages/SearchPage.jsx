@@ -5,7 +5,7 @@ import StudentCard from '../components/StudentCard';
 import StudentTable from '../components/StudentTable';
 import SkeletonCard from '../components/SkeletonCard';
 import EmptyState from '../components/EmptyState';
-import { ChevronLeft, ChevronRight, Sparkles, Search, UserCheck, ArrowRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Sparkles, Search, ArrowRight } from 'lucide-react';
 
 const ITEMS_PER_PAGE = 12;
 
@@ -100,7 +100,7 @@ export default function SearchPage({
     return filteredStudents.slice(start, start + ITEMS_PER_PAGE);
   }, [filteredStudents, activePage]);
 
-  // Quick sample suggestion chips for quick testing
+  // Quick sample suggestion chips
   const sampleSuggestions = useMemo(() => {
     return students.slice(0, 3).map((s) => ({
       label: s.nama,
@@ -113,14 +113,14 @@ export default function SearchPage({
       {/* Hero Header Section */}
       <section className="hero-section">
         <div className="hero-badge">
-          <Sparkles size={14} className="hero-badge-icon" />
+          <Sparkles size={13} className="hero-badge-icon" />
           <span>Direktori Mahasiswa</span>
         </div>
         <h1 className="hero-title">
           Pencarian Data <span>Mahasiswa</span>
         </h1>
         <p className="hero-subtitle">
-          Ketik NIM atau Nama Mahasiswa di bawah untuk menemukan detail data secara instan dan akurat.
+          Ketik NIM atau Nama Mahasiswa di bawah untuk menemukan profil secara instan.
         </p>
       </section>
 
@@ -132,7 +132,7 @@ export default function SearchPage({
             <div className="error-banner-sub">Menampilkan data fallback demo.</div>
           </div>
           <button onClick={onOpenConfig} className="btn btn-secondary btn-sm">
-            Periksa Pengaturan Sheet
+            Pengaturan Sheet
           </button>
         </div>
       )}
@@ -166,15 +166,15 @@ export default function SearchPage({
         hasActiveFilters={isActivelySearching}
       />
 
-      {/* State 1: When user has NOT searched yet (Initial State without list) */}
+      {/* State 1: When user has NOT searched yet (Initial State) */}
       {!isActivelySearching && !isLoading && (
         <div className="initial-search-prompt glass-panel">
           <div className="search-prompt-icon animate-float">
-            <Search size={36} />
+            <Search size={30} />
           </div>
           <h3 className="prompt-title">Mulai Pencarian Data Mahasiswa</h3>
           <p className="prompt-desc">
-            Masukkan <strong>Nomor Induk Mahasiswa (NIM)</strong> atau <strong>Nama Lengkap</strong> pada kolom pencarian di atas untuk menampilkan hasil.
+            Masukkan <strong>NIM</strong> atau <strong>Nama Lengkap</strong> pada kolom pencarian di atas untuk menampilkan hasil.
           </p>
 
           {sampleSuggestions.length > 0 && (
@@ -191,7 +191,7 @@ export default function SearchPage({
                     className="suggestion-chip"
                   >
                     <span>{item.label}</span>
-                    <ArrowRight size={13} />
+                    <ArrowRight size={12} />
                   </button>
                 ))}
               </div>
@@ -206,14 +206,14 @@ export default function SearchPage({
           {/* Results Header Info */}
           <div className="results-header">
             <div className="results-count">
-              Ditemukan <strong>{filteredStudents.length}</strong> mahasiswa cocok dengan pencarian
+              Ditemukan <strong>{filteredStudents.length}</strong> data mahasiswa
               {searchQuery && (
                 <span className="query-highlight"> "{searchQuery}"</span>
               )}
             </div>
             {totalPages > 1 && (
               <div className="page-indicator">
-                Halaman {activePage} dari {totalPages}
+                Hal {activePage} dari {totalPages}
               </div>
             )}
           </div>
@@ -245,8 +245,8 @@ export default function SearchPage({
                 className="btn btn-secondary pagination-btn"
                 aria-label="Previous page"
               >
-                <ChevronLeft size={18} />
-                <span>Sebelumnya</span>
+                <ChevronLeft size={16} />
+                <span className="btn-page-text">Sebelumnya</span>
               </button>
 
               <div className="pagination-numbers">
@@ -282,8 +282,8 @@ export default function SearchPage({
                 className="btn btn-secondary pagination-btn"
                 aria-label="Next page"
               >
-                <span>Berikutnya</span>
-                <ChevronRight size={18} />
+                <span className="btn-page-text">Berikutnya</span>
+                <ChevronRight size={16} />
               </button>
             </div>
           )}
@@ -294,29 +294,44 @@ export default function SearchPage({
         .search-page-container {
           display: flex;
           flex-direction: column;
+          width: 100%;
         }
 
         .hero-section {
           text-align: center;
-          padding: 1.5rem 0 2rem;
+          padding: 0.75rem 0 1.25rem;
           max-width: 760px;
           margin: 0 auto;
+        }
+
+        @media (min-width: 640px) {
+          .hero-section {
+            padding: 1.5rem 0 2rem;
+          }
         }
 
         .hero-badge {
           display: inline-flex;
           align-items: center;
-          gap: 0.45rem;
-          padding: 0.35rem 0.95rem;
+          gap: 0.4rem;
+          padding: 0.3rem 0.85rem;
           border-radius: var(--radius-full);
           background: var(--primary-50);
           color: var(--primary-600);
-          font-size: 0.8rem;
+          font-size: 0.75rem;
           font-weight: 700;
           letter-spacing: 0.03em;
           text-transform: uppercase;
-          margin-bottom: 1rem;
+          margin-bottom: 0.65rem;
           border: 1px solid var(--primary-200);
+        }
+
+        @media (min-width: 640px) {
+          .hero-badge {
+            font-size: 0.8rem;
+            padding: 0.35rem 0.95rem;
+            margin-bottom: 1rem;
+          }
         }
 
         [data-theme="dark"] .hero-badge {
@@ -330,16 +345,23 @@ export default function SearchPage({
         }
 
         .hero-title {
-          font-size: 2.25rem;
+          font-size: 1.65rem;
           font-weight: 800;
-          line-height: 1.15;
-          margin-bottom: 0.85rem;
+          line-height: 1.2;
+          margin-bottom: 0.5rem;
           letter-spacing: -0.03em;
+        }
+
+        @media (min-width: 480px) {
+          .hero-title {
+            font-size: 2rem;
+          }
         }
 
         @media (min-width: 640px) {
           .hero-title {
             font-size: 3rem;
+            margin-bottom: 0.85rem;
           }
         }
 
@@ -350,42 +372,51 @@ export default function SearchPage({
         }
 
         .hero-subtitle {
-          font-size: 1.05rem;
+          font-size: 0.88rem;
           color: var(--text-muted);
-          line-height: 1.6;
+          line-height: 1.5;
+          max-width: 580px;
+          margin: 0 auto;
+        }
+
+        @media (min-width: 640px) {
+          .hero-subtitle {
+            font-size: 1.05rem;
+            line-height: 1.6;
+          }
         }
 
         .error-banner {
           background: rgba(244, 63, 94, 0.08);
           border: 1px solid rgba(244, 63, 94, 0.25);
           border-radius: var(--radius-lg);
-          padding: 0.85rem 1.25rem;
+          padding: 0.75rem 1rem;
           display: flex;
           flex-wrap: wrap;
           align-items: center;
           justify-content: space-between;
-          gap: 0.75rem;
-          margin-bottom: 1.5rem;
+          gap: 0.6rem;
+          margin-bottom: 1.25rem;
           color: #E11D48;
-          font-size: 0.88rem;
+          font-size: 0.85rem;
         }
 
         .error-banner-sub {
-          font-size: 0.78rem;
+          font-size: 0.75rem;
           opacity: 0.85;
-          margin-top: 0.15rem;
+          margin-top: 0.1rem;
         }
 
         .btn-sm {
-          padding: 0.4rem 0.8rem;
-          font-size: 0.8rem;
+          padding: 0.35rem 0.75rem;
+          font-size: 0.78rem;
         }
 
-        /* Initial Search Prompt (State when no search active) */
+        /* Initial Search Prompt */
         .initial-search-prompt {
           text-align: center;
-          padding: 3.5rem 1.5rem 3rem;
-          margin: 0.5rem 0 3rem;
+          padding: 2.25rem 1rem 2rem;
+          margin: 0.25rem 0 2rem;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -394,20 +425,37 @@ export default function SearchPage({
           margin-left: auto;
           margin-right: auto;
           border-radius: var(--radius-xl);
+          width: 100%;
+        }
+
+        @media (min-width: 640px) {
+          .initial-search-prompt {
+            padding: 3.5rem 1.5rem 3rem;
+            margin: 0.5rem auto 3rem;
+          }
         }
 
         .search-prompt-icon {
-          width: 76px;
-          height: 76px;
-          border-radius: var(--radius-xl);
+          width: 60px;
+          height: 60px;
+          border-radius: var(--radius-lg);
           background: var(--primary-50);
           color: var(--primary-600);
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-bottom: 1.25rem;
+          margin-bottom: 1rem;
           border: 1px solid var(--primary-200);
-          box-shadow: 0 8px 20px rgba(79, 70, 229, 0.12);
+          box-shadow: 0 6px 16px rgba(79, 70, 229, 0.12);
+        }
+
+        @media (min-width: 640px) {
+          .search-prompt-icon {
+            width: 76px;
+            height: 76px;
+            border-radius: var(--radius-xl);
+            margin-bottom: 1.25rem;
+          }
         }
 
         [data-theme="dark"] .search-prompt-icon {
@@ -417,30 +465,44 @@ export default function SearchPage({
         }
 
         .prompt-title {
-          font-size: 1.35rem;
+          font-size: 1.15rem;
           font-weight: 700;
           color: var(--text-main);
-          margin-bottom: 0.6rem;
+          margin-bottom: 0.45rem;
+        }
+
+        @media (min-width: 640px) {
+          .prompt-title {
+            font-size: 1.35rem;
+            margin-bottom: 0.6rem;
+          }
         }
 
         .prompt-desc {
-          font-size: 0.95rem;
+          font-size: 0.85rem;
           color: var(--text-muted);
-          line-height: 1.6;
-          max-width: 480px;
-          margin-bottom: 1.75rem;
+          line-height: 1.55;
+          max-width: 460px;
+          margin-bottom: 1.35rem;
+        }
+
+        @media (min-width: 640px) {
+          .prompt-desc {
+            font-size: 0.95rem;
+            margin-bottom: 1.75rem;
+          }
         }
 
         .suggestions-box {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 0.65rem;
+          gap: 0.5rem;
           width: 100%;
         }
 
         .suggestions-label {
-          font-size: 0.78rem;
+          font-size: 0.72rem;
           font-weight: 600;
           color: var(--text-subtle);
           text-transform: uppercase;
@@ -451,23 +513,30 @@ export default function SearchPage({
           display: flex;
           flex-wrap: wrap;
           justify-content: center;
-          gap: 0.5rem;
+          gap: 0.4rem;
         }
 
         .suggestion-chip {
           display: inline-flex;
           align-items: center;
-          gap: 0.4rem;
+          gap: 0.35rem;
           background: var(--bg-surface-subtle);
           border: 1px solid var(--border-color);
-          padding: 0.4rem 0.85rem;
+          padding: 0.35rem 0.75rem;
           border-radius: var(--radius-full);
           font-family: var(--font-main);
-          font-size: 0.82rem;
+          font-size: 0.76rem;
           font-weight: 600;
           color: var(--text-main);
           cursor: pointer;
           transition: all var(--transition-fast);
+        }
+
+        @media (min-width: 640px) {
+          .suggestion-chip {
+            padding: 0.4rem 0.85rem;
+            font-size: 0.82rem;
+          }
         }
 
         .suggestion-chip:hover {
@@ -481,18 +550,26 @@ export default function SearchPage({
           color: #A5B4FC;
         }
 
-        /* Results Display */
+        /* Results Header */
         .results-header {
           display: flex;
+          flex-wrap: wrap;
           align-items: center;
           justify-content: space-between;
-          margin-bottom: 1.25rem;
-          padding: 0 0.25rem;
+          margin-bottom: 1rem;
+          padding: 0 0.15rem;
+          gap: 0.4rem;
         }
 
         .results-count {
-          font-size: 0.95rem;
+          font-size: 0.88rem;
           color: var(--text-muted);
+        }
+
+        @media (min-width: 640px) {
+          .results-count {
+            font-size: 0.95rem;
+          }
         }
 
         .results-count strong {
@@ -510,20 +587,22 @@ export default function SearchPage({
         }
 
         .page-indicator {
-          font-size: 0.85rem;
+          font-size: 0.8rem;
           color: var(--text-muted);
         }
 
         .student-grid {
           display: grid;
           grid-template-columns: 1fr;
-          gap: 1.25rem;
-          margin-bottom: 2.5rem;
+          gap: 1rem;
+          margin-bottom: 2rem;
         }
 
         @media (min-width: 640px) {
           .student-grid {
             grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 2.5rem;
           }
         }
 
@@ -543,33 +622,49 @@ export default function SearchPage({
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 0.5rem;
-          margin-top: 1rem;
-          margin-bottom: 3rem;
+          gap: 0.35rem;
+          margin-top: 0.5rem;
+          margin-bottom: 2.5rem;
           flex-wrap: wrap;
+        }
+
+        @media (min-width: 640px) {
+          .pagination-wrapper {
+            gap: 0.5rem;
+            margin-top: 1rem;
+            margin-bottom: 3rem;
+          }
         }
 
         .pagination-numbers {
           display: flex;
           align-items: center;
-          gap: 0.35rem;
+          gap: 0.25rem;
         }
 
         .page-num-btn {
-          width: 38px;
-          height: 38px;
+          width: 34px;
+          height: 34px;
           border-radius: var(--radius-md);
           background: var(--bg-surface);
           border: 1px solid var(--border-color);
           color: var(--text-main);
           font-family: var(--font-main);
           font-weight: 600;
-          font-size: 0.88rem;
+          font-size: 0.82rem;
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
           transition: all var(--transition-fast);
+        }
+
+        @media (min-width: 640px) {
+          .page-num-btn {
+            width: 38px;
+            height: 38px;
+            font-size: 0.88rem;
+          }
         }
 
         .page-num-btn:hover {
@@ -585,8 +680,19 @@ export default function SearchPage({
         }
 
         .page-ellipsis {
-          padding: 0 0.4rem;
+          padding: 0 0.25rem;
           color: var(--text-subtle);
+          font-size: 0.8rem;
+        }
+
+        .btn-page-text {
+          display: none;
+        }
+
+        @media (min-width: 480px) {
+          .btn-page-text {
+            display: inline;
+          }
         }
       `}</style>
     </div>
